@@ -3,14 +3,14 @@ package enemyClass;
 public class EnemyAttributes {
 
     private int health;
-    private int streangth;
+    private int strength;
     private int resistance;
     private int xp;
 
 
-    public EnemyAttributes(int health, int streangth, int resistance, int xp) {
+    public EnemyAttributes(int health, int strength, int resistance, int xp) {
         this.health = health;
-        this.streangth = streangth;
+        this.strength = strength;
         this.resistance = resistance;
         this.xp = xp;
     }
@@ -23,12 +23,12 @@ public class EnemyAttributes {
         this.health = health;
     }
 
-    public int getStreangth() {
-        return streangth;
+    public int getStrength() {
+        return strength;
     }
 
-    public void setStreangth(int streangth) {
-        this.streangth = streangth;
+    public void setStrength(int strength) {
+        this.strength = strength;
     }
 
     public int getResistance() {

@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class GameKombat {
 
-    public boolean randNumberLuck(int luck, int number) {
+    public boolean startRandNumberLuck(int luck, int number) {
 
         int aux = 0;
 
@@ -28,7 +28,7 @@ public class GameKombat {
     }
 
 
-    public int randNumberPower() {
+    public int startRandNumberPower() {
 
         Random random = new Random();
 
