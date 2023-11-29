@@ -23,7 +23,7 @@ public class Archer extends PlayerAttributes {
 
 
     public int attackGoblin(Goblin goblin, int attack) {
-        int damage = (attack *(this.getPrecision() * this.getStreangth()) - goblin.getResistance()) ;
+        int damage = ((attack *(this.getPrecision() * this.getStreangth()) / 1000) - goblin.getResistance()) ;
         return damage;
     }
 

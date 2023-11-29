@@ -1,20 +1,22 @@
 import enemyClass.Goblin;
 import playerClass.Archer;
-import playerClass.Warrior;
-import playerClass.Wizard;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 public class GameStart {
 
     public String chooseClass(int aux) {
         Scanner scanner = new Scanner(System.in);
-
+        GameKombat gameKombat = new GameKombat();
         String chosenClass = "";
 
         switch (aux) {
             case 1:
                 chosenClass = "Arqueiro";
-
-                kombat(chosenClass, comand, luck, number);
+                System.out.println("Digite --luckRand para prosseguir.");
+                String command = scanner.nextLine();
+                kombat(chosenClass, command);
                 break;
             case 2:
                 chosenClass = "Guerreiro";
@@ -30,35 +32,39 @@ public class GameStart {
         return chosenClass;
     }
 
-    public void kombat(String chosenClass, String comand, int luck, int number) {
+    public void kombat(String chosenClass, String command) {
         GameKombat gameKombat = new GameKombat();
 
         switch (chosenClass.toLowerCase()) {
             case "arqueiro":
                 Archer archerClass = new Archer();
-                String messageSC = startComand(comand, luck, number);
-                System.out.println(messageSC);
 
-                break;
-            case "guerreiro":
-                Warrior warriorClass = new Warrior(150, 120, 100, 80);
+                boolean continueCombat = true;
 
-                break;
-            case "mago":
-                Wizard wizardClass = new Wizard(80, 60, 70, 100, 120);
+                while (continueCombat) {
+                    int luck = gameKombat.startRandNumberPower();
+                    System.out.println("Tente advinhar um número de 1 a 5");
+                    int number = new Scanner(System.in).nextInt();
+                    String messageSC = startCommand(command, luck, number);
+                    System.out.println(messageSC);
 
-                break;
+                    // Condição de saída do loop (pode ser ajustada conforme necessário)
+                    System.out.println("Deseja continuar o combate? (S/N)");
+                    Scanner scanner = new Scanner(System.in);
+                    String continueChoice = scanner.nextLine().trim().toLowerCase();
+                    if (!continueChoice.equals("s")) {
+                        continueCombat = false;
+                    }
+                }
+
+
+                // outras classes...
             default:
-
                 break;
         }
-
-
     }
 
-
-
-    public String startComand(String command, int luck, int number) {
+    public String startCommand(String command, int luck, int number) {
         GameKombat gameKombat = new GameKombat();
 
         if (command.equalsIgnoreCase("--luckRand")) {
@@ -67,53 +73,59 @@ public class GameStart {
             if (isLuckSuccessful) {
                 return "A sorte está ao seu favor, poderá seguir em frente.";
             } else {
-                // Criação do jogador (adaptar com a lógica do jogo)
+                // Criação do jogador e inimigos
                 Archer player = new Archer();
-
                 int numberOfEnemies = gameKombat.startRandNumberPower();
 
-                StringBuilder mensagem = new StringBuilder("Ops. Acabaras de se deparar com oponentes:\n");
-
-                // Criação dos inimigos e exibição das opções para o jogador
-                Goblin[] enemies = new Goblin[numberOfEnemies];
+                List<Goblin> enemies = new ArrayList<>();
+                // Construção da mensagem com informações dos inimigos
+                StringBuilder message = new StringBuilder("Ops. Acabaras de se deparar com oponentes:\n");
                 for (int i = 0; i < numberOfEnemies; i++) {
-                    enemies[i] = new Goblin();
-                    mensagem.append("Inimigo ").append(i + 1).append(": Vida=").append(enemies[i].getHealth())
-                            .append(", Força=").append(enemies[i].getStrength())
-                            .append(", Resistência=").append(enemies[i].getResistance())
-                            .append(", XP=").append(enemies[i].getXp()).append("\n");
+                    Goblin enemy = new Goblin();
+
+                        enemies.add(enemy);
+                        message.append("Inimigo ").append(i + 1).append(": Vida=").append(enemy.getHealth())
+                                .append(", Força=").append(enemy.getStrength())
+                                .append(", Resistência=").append(enemy.getResistance())
+                                .append(", XP=").append(enemy.getXp()).append("\n");
+
                 }
 
                 // Seleção do inimigo a ser atacado
                 Scanner scanner = new Scanner(System.in);
-                System.out.println(mensagem.toString());
-                System.out.println("Escolha o número do inimigo que deseja atacar: (1-" + numberOfEnemies + ")");
-                int changeEnemy = scanner.nextInt();
+                while (!enemies.isEmpty()) {
+                    System.out.println(message);
+                    System.out.println("Escolha o número do inimigo que deseja atacar: (1-" + enemies.size() + ")");
+                    int changeEnemy = scanner.nextInt();
 
-                // Verificação e ataque ao inimigo escolhido
-                if (changeEnemy >= 1 && changeEnemy <= numberOfEnemies) {
-                    if (enemies[changeEnemy - 1].getHealth() <= 0) {
+                    // Verificação e ataque ao inimigo escolhido
+                    if (changeEnemy >= 1 && changeEnemy <= enemies.size()) {
+                        Goblin selectedEnemy = enemies.get(changeEnemy - 1);
 
-                        int attack = player.attackCollar(enemies[changeEnemy - 1], gameKombat.startRandNumberPower());
+                        int attack = player.attackGoblin(selectedEnemy, gameKombat.startRandNumberPower());
 
                         if (attack > 0) {
-                            enemies[changeEnemy - 1].setHealth(enemies[changeEnemy - 1].getHealth() - attack);
-
+                            selectedEnemy.setHealth(selectedEnemy.getHealth() - attack);
+                            if (selectedEnemy.getHealth() <= 0 ) {
+                                enemies.remove(selectedEnemy);
+                            }
                             return "Você atacou o inimigo " + changeEnemy + " com " + attack + " de ataque!";
+
+
                         } else {
-                            return "Voce atacou mas o inimigo resistiu!";
+                            return "Você atacou, mas o inimigo resistiu!";
                         }
 
-                    } else { return "Inimigo morto.";}
-                } else {
-                    return "Opção inválida.";
+
+                    } else {
+                        System.out.println("Opção inválida.");
+                    }
                 }
             }
         } else {
             return "Comando inválido";
         }
+    return "vitoria!!!";
     }
-
-
 
 }
