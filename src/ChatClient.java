@@ -61,7 +61,7 @@ public class ChatClient implements Runnable{
 
                 GameStart gameStart = new GameStart();
 
-                clientSocket.sendMsg(gameStart.chooseClass(aux));
+                clientSocket.sendMsg(gameStart.chooseClassAndCombat(aux));
 
 
 

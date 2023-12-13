@@ -13,6 +13,10 @@ public class PlayerAttributes {
         this.xp = xp;
     }
 
+    public PlayerAttributes() {
+
+    }
+
     public int getHealth() {
         return this.health;
     }

@@ -1,7 +1,7 @@
 
 package playerClass;
 import enemyClass.*;
-public class Archer extends PlayerAttributes {
+public class Archer extends PlayerAttributes implements PlayerAttacks {
     private int precision = 100;
 
     public Archer() {
