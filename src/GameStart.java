@@ -83,33 +83,31 @@ public class GameStart {
 
                 List<Goblin> enemies = new ArrayList<>();
                 // Construção da mensagem com informações dos inimigos
-                StringBuilder message = new StringBuilder("Ops. Acabaras de se deparar com oponentes:\n");
+                System.out.println("Ops. Acabaras de se deparar com oponentes:");
 
                 for (int i = 0; i < numberOfEnemies; i++) {
                     Goblin enemy = new Goblin();
                     enemies.add(enemy);
+
                 }
+                while (!enemies.isEmpty()) {
+                    enemies.removeIf(enemy -> enemy.getHealth() <= 0);
 
-                for (Goblin enemy : enemies) {
+                    for (int i = 0; i < enemies.size(); i++) {
+                        Goblin enemy = enemies.get(i);
+                        System.out.println("Inimigo " + (i + 1) + ": Vida=" + enemy.getHealth()
+                                + ", Força=" + enemy.getStrength() + ", Resistência=" + enemy.getResistance()
+                                + ", XP=" + enemy.getXp());
 
-                    if(enemy.getHealth() <= 0) {
-                        enemies.remove(enemy);
+
+
                     }
 
-                    message.append("Inimigo ").append(enemies.indexOf(enemy) + 1).append(": Vida=").append(enemy.getHealth())
-                            .append(", Força=").append(enemy.getStrength())
-                            .append(", Resistência=").append(enemy.getResistance())
-                            .append(", XP=").append(enemy.getXp()).append("\n");
+
+                    // Seleção do inimigo a ser atacado
+                    Scanner scanner = new Scanner(System.in);
 
 
-
-                }
-
-
-                // Seleção do inimigo a ser atacado
-                Scanner scanner = new Scanner(System.in);
-                    while (!enemies.isEmpty()) {
-                    System.out.println(message);
                     System.out.println("Escolha o número do inimigo que deseja atacar: (1-" + enemies.size() + ")");
                     int changeEnemy = scanner.nextInt();
 
@@ -145,5 +143,6 @@ public class GameStart {
         }
         System.out.println("vitoria!!!");
     }
+
 
 }

@@ -55,7 +55,7 @@ public class ChatClient implements Runnable{
                 int aux;
 
                 System.out.println("escolha a sua classe \n 1- arqueiro \n" +
-                        "2- guerreiro \n 3- mago \n");
+                        " 2- guerreiro \n 3- mago \n");
                 aux = scan.nextInt();
 
 
